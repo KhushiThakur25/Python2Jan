@@ -1,0 +1,8 @@
+1. check if string is palindrome or not..?
+reverse-string_name[::-1]
+
+2. st = "brainmentors123AndSkillrisers"
+123-remove include=space
+
+3.st = "brain,men,tors.123.And,Skill,risers."
+ .->,  and ,->.
