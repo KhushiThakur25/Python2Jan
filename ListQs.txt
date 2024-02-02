@@ -1,0 +1,23 @@
+1.check if element is exist or not in the list
+2.sum of all elements presents in the list
+3.Do square of all elements present in the list
+[1,2,3,4,5]
+output = [1,4,9,16,25]
+4.find maximum element in the list
+5.Find the second max in the list
+[42,13,28,45,54,47]
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+7.do squares of all elements of nested list and store into same list and into another lists
+8.find max element in the nested list
+9.do product of corresponding elements of two different lists...
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+10. fruits tuple and vegetables tuple ....merges in single tuple(eating_items)
+11.input = (2,34,5,6,8,9)  output=(squares of all elements)
+
+
+
+
+
+
+
