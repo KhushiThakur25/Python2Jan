@@ -9,13 +9,16 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import sys
+import random
 
 
-class Ui_MainWindow(object):
+class Ui_MainWindow(QtWidgets.QMainWindow):
+    userChoice,cpuChoice = '',''
+    gameGrid = None
 
     def setupUi(self, MainWindow):
-        self.userChoice,self.cpuChoice = '',''
-        gameGrid = None
+        
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(916, 725)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -29,47 +32,47 @@ class Ui_MainWindow(object):
         self.label.setObjectName("label")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(150, 180, 111, 111))
-        self.pushButton.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
+        self.pushButton.setStyleSheet("background-color: rgba(255, 255, 255, 0);font-size:30px")
         self.pushButton.setText("")
         self.pushButton.setObjectName("pushButton")
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(280, 180, 111, 111))
-        self.pushButton_2.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
+        self.pushButton_2.setStyleSheet("background-color: rgba(255, 255, 255, 0);font-size:30px")
         self.pushButton_2.setText("")
         self.pushButton_2.setObjectName("pushButton_2")
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_3.setGeometry(QtCore.QRect(410, 180, 111, 111))
-        self.pushButton_3.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
+        self.pushButton_3.setStyleSheet("background-color: rgba(255, 255, 255, 0);font-size:30px")
         self.pushButton_3.setText("")
         self.pushButton_3.setObjectName("pushButton_3")
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_4.setGeometry(QtCore.QRect(150, 300, 111, 111))
-        self.pushButton_4.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
+        self.pushButton_4.setStyleSheet("background-color: rgba(255, 255, 255, 0);font-size:30px")
         self.pushButton_4.setText("")
         self.pushButton_4.setObjectName("pushButton_4")
         self.pushButton_5 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_5.setGeometry(QtCore.QRect(280, 300, 111, 111))
-        self.pushButton_5.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
+        self.pushButton_5.setStyleSheet("background-color: rgba(255, 255, 255, 0);font-size:30px")
         self.pushButton_5.setText("")
         self.pushButton_5.setObjectName("pushButton_5")
         self.pushButton_6 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_6.setGeometry(QtCore.QRect(400, 310, 111, 111))
-        self.pushButton_6.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
+        self.pushButton_6.setStyleSheet("background-color: rgba(255, 255, 255, 0);font-size:30px")
         self.pushButton_6.setText("")
         self.pushButton_6.setObjectName("pushButton_6")
         self.pushButton_7 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_7.setGeometry(QtCore.QRect(150, 430, 111, 111))
-        self.pushButton_7.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
+        self.pushButton_7.setStyleSheet("background-color: rgba(255, 255, 255, 0);font-size:30px")
         self.pushButton_7.setText("")
         self.pushButton_7.setObjectName("pushButton_7")
         self.pushButton_8 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_8.setGeometry(QtCore.QRect(280, 430, 111, 111))
-        self.pushButton_8.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
+        self.pushButton_8.setStyleSheet("background-color: rgba(255, 255, 255, 0);font-size:30px")
         self.pushButton_8.setText("")
         self.pushButton_8.setObjectName("pushButton_8")
         self.pushButton_9 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_9.setGeometry(QtCore.QRect(410, 430, 111, 111))
-        self.pushButton_9.setStyleSheet("background-color: rgba(255, 255, 255, 0);")
+        self.pushButton_9.setStyleSheet("background-color: rgba(255, 255, 255, 0);font-size:30px")
         self.pushButton_9.setText("")
         self.pushButton_9.setObjectName("pushButton_9")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
@@ -127,7 +130,53 @@ class Ui_MainWindow(object):
         self.gameGrid = [self.pushButton,self.pushButton_2,self.pushButton_3,
                 self.pushButton_4,self.pushButton_5,self.pushButton_6,
                 self.pushButton_7,self.pushButton_8,self.pushButton_9]
-        
+        self.pushButton_10.clicked.connect(self.startGame)
+        for btn in self.gameGrid:
+            btn.clicked.connect(self.UserMove)
+
+    def startGame(self):
+        self.userChoice = self.lineEdit.text()
+        if self.userChoice.upper() == 'X':
+            self.cpuChoice = '0'
+        else:
+            self.cpuChoice = 'X'
+        self.lineEdit.setReadOnly(True)
+    
+    def UserMove(self):
+        print(self.userChoice)
+        btn = self.sender()
+        btn.setText(self.userChoice)
+        btn.setDisabled(True)
+        self.cpuMove()
+
+    def cpuMove(self):
+        emptyButtons = [btn for btn in self.gameGrid if btn.text() == ' ']
+        if emptyButtons:
+            btn = random.choice(emptyButtons)
+            btn.setText(self.cpuChoice)
+            btn.setDisabled(True)
+
+    def checkWinner(self,player):
+        winning_combinations = [[self.pushButton,self.pushButton_2,self.pushButton_3],
+                                [self.pushButton_4,self.pushButton_5,self.pushButton_6],
+                                [self.pushButton_7,self.pushButton_8,self.pushButton_9],
+                                [self.pushButton,self.pushButton_5,self.pushButton_9],
+                                [self.pushButton_3,self.pushButton_5,self.pushButton_7],
+                                [self.pushButton,self.pushButton_4,self.pushButton_7],
+                                [self.pushButton_2,self.pushButton_5,self.pushButton_8],
+                                [self.pushButton_3,self.pushButton_6,self.pushButton_9] ]
+
+        for combo in winning_combinations:
+            combo_match = True
+            for btn in combo:
+                if btn.text() != player:
+                    combo_match = False
+                    break
+            if combo_match:
+                self.lineEdit_2.setText(player + 'Wins..!')
+                
+
+            
 
 
 if __name__ == "__main__":
