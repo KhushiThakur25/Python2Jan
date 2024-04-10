@@ -147,14 +147,18 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         btn = self.sender()
         btn.setText(self.userChoice)
         btn.setDisabled(True)
+        self.checkWinner(self.userChoice)
         self.cpuMove()
 
     def cpuMove(self):
-        emptyButtons = [btn for btn in self.gameGrid if btn.text() == ' ']
+        
+        emptyButtons = [btn for btn in self.gameGrid if btn.text() == '']
         if emptyButtons:
             btn = random.choice(emptyButtons)
             btn.setText(self.cpuChoice)
+            
             btn.setDisabled(True)
+            self.checkWinner(self.cpuChoice)
 
     def checkWinner(self,player):
         winning_combinations = [[self.pushButton,self.pushButton_2,self.pushButton_3],
@@ -173,8 +177,24 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                     combo_match = False
                     break
             if combo_match:
-                self.lineEdit_2.setText(player + 'Wins..!')
+                self.lineEdit_2.setText(player + ' '+ 'Wins..!')
+                self.disableButtons()
+                return 
                 
+
+        all_filled = True
+        for btn in self.gameGrid:
+            if btn.text() == "":
+                all_filled = False
+                break
+
+        if all_filled:
+            self.lineEdit_2.setText("It's a tie!") 
+            self.disableButtons()
+            return
+    def disableButtons(self):
+        for btn in self.gameGrid:
+            btn.setDisabled(True)                  
 
             
 
