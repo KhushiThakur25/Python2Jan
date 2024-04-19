@@ -12,6 +12,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMainWindow,QApplication,QTableWidgetItem
 from PyQt5.QtCore import Qt
 from datetime import datetime
+import sys
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
 
 
 class Ui_MainWindow(object):
@@ -396,11 +399,76 @@ class Ui_MainWindow(object):
         self.tableWidget.setItem(row_position, 12, QTableWidgetItem(salary))
         
     def deleteData(self):
-        pass
+        selected_rows = self.tableWidget.selectedItems()
+        # print("Row is..",selected_rows)
+        
+        if not selected_rows:
+                print("No rows selected for deletion..")
+                return
+        selected_rows_indices = set(item.row() for item in selected_rows)
+        print(selected_rows_indices)
+
+        for row_index in sorted(selected_rows_indices, reverse = True):
+                self.tableWidget.removeRow(row_index)
+        
+        
     def updateData(self):
-        pass
+        selected_rows = set(index.row() for index in self.tableWidget.selectedIndexes())
+        print("selected rows.",selected_rows)
+
+        if not selected_rows or len(selected_rows) > 1:
+                print("Please select a single row to update..")
+                return
+
+        row_index = next(iter(selected_rows))
+        #retrieve data
+        department = self.tableWidget.item(row_index,0).text()
+        designation = self.tableWidget.item(row_index,1).text()
+        address = self.tableWidget.item(row_index,2).text()
+        date_of_birth = self.tableWidget.item(row_index,3).text()
+        identity = self.tableWidget.item(row_index,4).text()
+        name = self.tableWidget.item(row_index,5).text()
+        email = self.tableWidget.item(row_index,6).text()
+        married_status = self.tableWidget.item(row_index,7).text()
+        date_of_joining = self.tableWidget.item(row_index,8).text()
+        gender = self.tableWidget.item(row_index,9).text()
+        phone_number = self.tableWidget.item(row_index,10).text()
+        country = self.tableWidget.item(row_index,11).text()
+        salary = self.tableWidget.item(row_index,12).text()
+
+        #set data
+        self.comboBox.setCurrentText(department)
+        self.lineEdit.setText(designation)
+        self.lineEdit_2.setText(address)
+        self.dateEdit.setDate(QtCore.QDate.fromString(date_of_birth, Qt.ISODate))
+        self.comboBox_2.setCurrentText(identity)
+        self.lineEdit_3.setText(name)
+        self.lineEdit_4.setText(email)
+        self.comboBox_3.setCurrentText(married_status)
+        self.dateEdit_2.setDate(QtCore.QDate.fromString(date_of_joining, Qt.ISODate))
+        self.comboBox_4.setCurrentText(gender)
+        self.lineEdit_5.setText(phone_number)
+        self.lineEdit_6.setText(country)
+        self.lineEdit_7.setText(salary)
+        
+
     def resetData(self):
-        pass
+        #clear inputs
+        self.comboBox.setCurrentIndex(0)
+        self.comboBox_2.setCurrentIndex(0)
+        self.comboBox_3.setCurrentIndex(0)
+        self.comboBox_4.setCurrentIndex(0)
+        self.lineEdit.clear()
+        self.lineEdit_2.clear()
+        self.lineEdit_3.clear()
+        self.lineEdit_4.clear()
+        self.lineEdit_5.clear()
+        self.lineEdit_6.clear()
+        self.lineEdit_7.clear()
+        self.dateEdit.setDate(QDate(2000, 1, 1))
+        self.dateEdit_2.setDate(QDate(2000, 1, 1))
+        # self.dateEdit.setDate(datetime.now().date())
+
 
 if __name__ == "__main__":
     import sys
